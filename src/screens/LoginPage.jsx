@@ -13,7 +13,7 @@ import {
   ScrollView
 } from 'react-native';
 import Loading from '../components/Loading';
-export default function LoginPage() {
+export default function LoginPage({navigation}) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -54,6 +54,11 @@ export default function LoginPage() {
               onPress={() => setLoading(true)}
               style={({ pressed }) => [{ backgroundColor: pressed ? 'blue' : 'gray' }, styles.button]}>
               <Text style={{ color: 'white' }}>Giriş Yap</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => navigation.navigate('Signup')}
+              style={({ pressed }) => [{ backgroundColor: pressed ? 'blue' : 'gray' }, styles.signupButton]}>
+              <Text style={{ color: 'white' }}>Kayıt Ol</Text>
             </Pressable>
 
             <Text>{result}</Text>
@@ -103,5 +108,14 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     margin: 12,
+  },
+  signupButton:{
+    width:'30%',
+    justifyContent:'center',
+    alignItems:'center',
+    marginTop:'24',
+    borderRadius:24,
+    height:50,
+    borderWidth:1
   }
 });
