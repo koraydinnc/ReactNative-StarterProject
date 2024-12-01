@@ -4,118 +4,133 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   Pressable,
   Image,
   Keyboard,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  ScrollView
 } from 'react-native';
-import Loading from '../components/Loading';
-export default function LoginPage({navigation}) {
+import { Loading, CustomTextInput } from '../components';
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [result, setResult] = useState("");
-  const [loading, setLoading] = useState(false)
-
-
+export default function LoginPage({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [result, setResult] = useState('');
+  const [loading, setLoading] = useState(false);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={50}>
-          <View style={styles.container}>
-            <Image
-              source={require('../../assets/images/login.png')}
-              style={styles.image}
-            />
-            <Text>Giriş Yap</Text>
+      <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
+        <View style={styles.container}>
+          <Image
+            source={require('../../assets/images/login.png')}
+            style={styles.image}
+          />
+          <Text style={styles.title}>Hoş Geldiniz</Text>
+          <Text style={styles.subtitle}>Hesabınıza giriş yapın</Text>
 
-            <Text>Email</Text>
-            <TextInput
-              onChangeText={setEmail}
-              placeholder="Lütfen Email Adresinizi Girin"
-              style={styles.textInputStyle}
-              value={email}
-              keyboardType="email-address"
-            />
+          <CustomTextInput
+            title="Email"
+            placeholder="Email adresinizi girin"
+            value={email}
+            onChangeText={setEmail}
+          />
 
-            <Text>Şifre</Text>
-            <TextInput
-              placeholder="Lütfen Şifrenizi Girin"
-              onChangeText={setPassword}
-              style={styles.textInputStyle}
-              value={password}
-              secureTextEntry
-            />
+          <CustomTextInput
+            title="Şifre"
+            placeholder="Şifrenizi girin"
+            isSecureText
+            value={password}
+            onChangeText={setPassword}
+          />
 
-            <Pressable
-              onPress={() => setLoading(true)}
-              style={({ pressed }) => [{ backgroundColor: pressed ? 'blue' : 'gray' }, styles.button]}>
-              <Text style={{ color: 'white' }}>Giriş Yap</Text>
-            </Pressable>
-            <Pressable
-              onPress={() => navigation.navigate('Signup')}
-              style={({ pressed }) => [{ backgroundColor: pressed ? 'blue' : 'gray' }, styles.signupButton]}>
-              <Text style={{ color: 'white' }}>Kayıt Ol</Text>
-            </Pressable>
+          <Pressable
+            onPress={() => setLoading(true)}
+            style={({ pressed }) => [
+              styles.button,
+              { backgroundColor: pressed ? '#0056b3' : '#007BFF' },
+            ]}
+          >
+            <Text style={styles.buttonText}>Giriş Yap</Text>
+          </Pressable>
 
-            <Text>{result}</Text>
-          
-            
-          </View>
-          {loading ? <Loading loading={setLoading} /> : null }
+          <Pressable
+            onPress={() => navigation.navigate('Signup')}
+            style={({ pressed }) => [
+              styles.secondaryButton,
+              { backgroundColor: pressed ? '#d9d9d9' : '#f0f0f0' },
+            ]}
+          >
+            <Text style={styles.secondaryButtonText}>Kayıt Ol</Text>
+          </Pressable>
 
+          <Text style={styles.resultText}>{result}</Text>
+        </View>
+        {loading && <Loading loading={setLoading} />}
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: '#f9f9f9',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 20,
-    width:'100%'
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textInputStyle: {
-    borderWidth: 1,
-    width: '80%',
-    height: 50,
-    borderRadius: 10,
-    marginVertical: 10,
-    textAlign: 'center',
-    fontWeight: 'bold'
-  },
-  button: {
-    borderWidth: 1,
-    width: '80%',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    backgroundColor: 'gray',
+    paddingHorizontal: 20,
   },
   image: {
-    width: 100,
-    height: 100,
-    margin: 12,
+    width: 120,
+    height: 120,
+    marginBottom: 20,
   },
-  signupButton:{
-    width:'30%',
-    justifyContent:'center',
-    alignItems:'center',
-    marginTop:'24',
-    borderRadius:24,
-    height:50,
-    borderWidth:1
-  }
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 24,
+  },
+  button: {
+    marginTop: 16,
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  secondaryButton: {
+    marginTop: 12,
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  secondaryButtonText: {
+    color: '#333',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  resultText: {
+    marginTop: 16,
+    color: 'red',
+    fontSize: 14,
+    textAlign: 'center',
+  },
 });
